@@ -40,7 +40,7 @@ openssl req -new -sha256 -key $CERT_DIR/$DOMAIN/$DOMAIN.key -config $SCRIPT_DIR/
 openssl req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -noout -text
 
 # Generate the actual certificate
-openssl x509 -req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -CA $SCRIPT_DIR/root_ca.crt -CAkey $SCRIPT_DIR/root_ca.key -CAcreateserial -out $CERT_DIR/$DOMAIN/$DOMAIN.crt -days 500 -sha256
+openssl x509 -req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -CA $SCRIPT_DIR/root_ca.crt -CAkey $SCRIPT_DIR/root_ca.key -CAcreateserial -out $CERT_DIR/$DOMAIN/$DOMAIN.crt -days 365 -sha256
 
 # Verify the CRT's content
 openssl x509 -in $CERT_DIR/$DOMAIN/$DOMAIN.crt -text -noout
