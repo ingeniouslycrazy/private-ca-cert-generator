@@ -3,8 +3,10 @@
 # Set the directory for the root CA
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-# Create the root CA directory if it doesn't exist
-mkdir -p "$SCRIPT_DIR"
+if [ -f $SCRIPT_DIR/root_ca.key ]; then
+   echo "Root CA was already created."
+   exit -1
+fi
 
 # 1. Generate the root CA private key
 openssl genrsa -out "$SCRIPT_DIR/root_ca.key" 2048

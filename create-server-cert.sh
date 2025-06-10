@@ -25,11 +25,16 @@ fi
 # Create the server's cert directory if it doesn't exist
 mkdir -p "$CERT_DIR/$DOMAIN"
 
+if [ -f $CERT_DIR/$DOMAIN/$DOMAIN.crt ]; then
+   echo "Cerificate for $DOMAIN was already created."
+   exit -1
+fi
+
 # Create the server's cert
 openssl genrsa -out $CERT_DIR/$DOMAIN/$DOMAIN.key 2048 
 
 # Create certificate signing request
-openssl req -new -sha256 -key $CERT_DIR/$DOMAIN/$DOMAIN.key -subj "/C=CH/ST=SZ/O=David Schneider/CN=$DOMAIN" -out $CERT_DIR/$DOMAIN/$DOMAIN.csr
+openssl req -new -sha256 -key $CERT_DIR/$DOMAIN/$DOMAIN.key -config $SCRIPT_DIR/cert.conf -out $CERT_DIR/$DOMAIN/$DOMAIN.csr
 
 # Verify the CSR's content
 openssl req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -noout -text
