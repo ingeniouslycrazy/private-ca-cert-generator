@@ -2,7 +2,8 @@
 
 # Set the directory for the root CA
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-CERT_DIR="$SCRIPT_DIR/certs"
+CERT_DIR="$SCRIPT_DIR/certs/domains"
+ROOT_DIR="$SCRIPT_DIR/certs/root"
 
 # Read the domain name to set the server FQDN
 read -p "Enter a domain name: " DOMAIN
@@ -37,10 +38,10 @@ openssl genrsa -out $CERT_DIR/$DOMAIN/$DOMAIN.key 2048
 openssl req -new -sha256 -key $CERT_DIR/$DOMAIN/$DOMAIN.key -config $SCRIPT_DIR/cert.conf -out $CERT_DIR/$DOMAIN/$DOMAIN.csr
 
 # Verify the CSR's content
-openssl req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -noout -text
+#openssl req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -noout -text
 
 # Generate the actual certificate
-openssl x509 -req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -CA $SCRIPT_DIR/root_ca.crt -CAkey $SCRIPT_DIR/root_ca.key -CAcreateserial -out $CERT_DIR/$DOMAIN/$DOMAIN.crt -days 365 -sha256
+openssl x509 -req -in $CERT_DIR/$DOMAIN/$DOMAIN.csr -CA $ROOT_DIR/root_ca.crt -CAkey $ROOT_DIR/root_ca.key -CAcreateserial -out $CERT_DIR/$DOMAIN/$DOMAIN.crt -days 365 -sha256
 
 # Verify the CRT's content
 openssl x509 -in $CERT_DIR/$DOMAIN/$DOMAIN.crt -text -noout
