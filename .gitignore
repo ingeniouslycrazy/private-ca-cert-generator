@@ -1,6 +1,3 @@
-root_ca.crt
-root_ca.key
-root_ca_extended.crt
-certs/
 .DS_Store
 .idea
+ca
